@@ -184,14 +184,14 @@
 <br>
 <h2>Tampilan Aplikasi 🌐</h2>
 <div>
-<img src="https://github.com/AGUN1505/mokap/blob/main/mokap.jpg" width="22%">
-<img src="https://github.com/AGUN1505/mokap/blob/main/mokap%201.png" width="22%">
-<img src="https://github.com/AGUN1505/mokap/blob/main/mokap%207.png" width="22%">
-<img src="https://github.com/AGUN1505/mokap/blob/main/mokap%205.png" width="22%">
+<img src="https://github.com/dindputr/FEBE/blob/main/Group%201.png" width="22%">
+<img src="https://github.com/dindputr/FEBE/blob/main/Landing%20Page.png" width="22%">
+<img src="https://github.com/dindputr/FEBE/blob/main/Catatan%20Mood.png" width="22%">
+<img src="https://github.com/dindputr/FEBE/blob/main/Refleksi%20Diri.png" width="22%">
 </div>
 
 <br>
 <h2> Repositori Proyek Kami 📁</h2>
 <p>Mau lihat kode di balik layar? Langsung aja mampir ke Github kami!</p>
-<p></p><b>Frontend & Backend:</b> <a href="">FEBE Mamood</a></p>
-<p></p><b>Machine Learning:</b> <a href="">ML Mamood</a></p>
+<p></p><b>Frontend & Backend:</b> <a href="https://github.com/dindputr/FEBE">FEBE Mamood</a></p>
+<p></p><b>Machine Learning:</b> <a href="https://github.com/dindputr/Machine-Learning">ML Mamood</a></p>
