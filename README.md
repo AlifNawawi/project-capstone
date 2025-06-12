@@ -20,10 +20,10 @@
           <td>MC015D5X1091</td>
           <td>Yuliana Habibah</td>
           <td>Machine Learning</td>
-          <td>Universitas</td>
+          <td>UNY</td>
           <td>
-              <a href="https://www.linkedin.com/in/agun-firmansyah-715a762a9/"><img src="https://img.shields.io/badge/--linkedin?label=LinkedIn&logo=LinkedIn&style=social"></a>
-              <a href="https://github.com/AGUN1505"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
+              <a href="https://www.linkedin.com/in/yuliana-habibah-a89665298?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"><img src="https://img.shields.io/badge/--linkedin?label=LinkedIn&logo=LinkedIn&style=social"></a>
+              <a href="https://github.com/YulianaHabibah"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
           </td>
         </tr>
         <tr>
