@@ -4,6 +4,7 @@ import { logout } from '../../../firebase';
 
 const ProfileModalComponent = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // State baru untuk modal logout
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -17,14 +18,25 @@ const ProfileModalComponent = () => {
   const openProfileModal = () => setIsProfileModalOpen(true);
   const closeProfileModal = () => setIsProfileModalOpen(false);
 
-  const handleLogout = async () => {
+  // Fungsi untuk membuka modal konfirmasi logout
+  const openLogoutModal = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  // Fungsi untuk menangani logout setelah konfirmasi
+  const confirmLogout = async () => {
     const result = await logout();
     if (result.success) {
-      alert('Berhasil logout');
       navigate('/login');
     } else {
-      alert('Gagal logout: ' + result.error);
+      alert('Gagal logout: ' + result.error); // Menggunakan alert sesuai kode asli
     }
+    setIsLogoutModalOpen(false); // Tutup modal setelah logout
+  };
+
+  // Fungsi untuk membatalkan logout
+  const cancelLogout = () => {
+    setIsLogoutModalOpen(false);
   };
 
   if (!user) return null;
@@ -39,12 +51,47 @@ const ProfileModalComponent = () => {
           Akun Saya
         </button>
         <button
-          onClick={handleLogout}
+          onClick={openLogoutModal} // Ganti dengan openLogoutModal
           className="px-3 py-1 border rounded-full text-xs md:text-sm text-purple-500 cursor-pointer"
         >
           Keluar
         </button>
       </div>
+
+      {/* Modal Konfirmasi Logout */}
+      {isLogoutModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/5 bg-opacity-50">
+          <div className="bg-white p-4 sm:p-6 rounded-xl w-11/12 sm:max-w-sm relative shadow-lg">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 cursor-pointer"
+              onClick={cancelLogout}
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+            <h2 className="text-lg font-semibold mb-4 text-center text-gray-900">
+              Konfirmasi Logout
+            </h2>
+            <p className="text-center text-gray-700 mb-6">
+              Apakah Anda yakin ingin keluar dari akun Anda?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={cancelLogout}
+                className="border border-purple-600 text-purple-600 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-purple-100 text-sm sm:text-base cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                onClick={confirmLogout}
+                className="bg-purple-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-purple-700 text-sm sm:text-base cursor-pointer"
+              >
+                Keluar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isProfileModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">

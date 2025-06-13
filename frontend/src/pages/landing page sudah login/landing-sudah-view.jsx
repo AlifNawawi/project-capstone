@@ -14,6 +14,7 @@ export default function LandingSudahView({
   const [isProfileOpen, setProfileOpen] = useState(false);
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isTestimoniModalOpen, setTestimoniModalOpen] = useState(false);
+  const [isLogoutModalOpen, setLogoutModalOpen] = useState(false); // State baru untuk modal logout
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const navigate = useNavigate();
 
@@ -32,7 +33,14 @@ export default function LandingSudahView({
   };
   const closeProfileModal = () => setProfileModalOpen(false);
 
-  const handleLogout = async () => {
+  // Fungsi untuk membuka modal konfirmasi logout
+  const openLogoutModal = () => {
+    setLogoutModalOpen(true);
+    setProfileOpen(false); // Tutup dropdown profil jika terbuka
+  };
+
+  // Fungsi untuk menangani logout setelah konfirmasi
+  const confirmLogout = async () => {
     try {
       const result = await logout();
       if (result.success) {
@@ -44,7 +52,14 @@ export default function LandingSudahView({
     } catch (error) {
       console.error('Error saat logout:', error);
       alert('Terjadi kesalahan saat logout');
+    } finally {
+      setLogoutModalOpen(false); // Tutup modal setelah logout
     }
+  };
+
+  // Fungsi untuk membatalkan logout
+  const cancelLogout = () => {
+    setLogoutModalOpen(false);
   };
 
   useEffect(() => {
@@ -70,7 +85,6 @@ export default function LandingSudahView({
   };
 
   const handleTestimonialAdded = () => {
-    // Refresh data testimoni setelah testimoni baru ditambahkan
     if (onRefreshTestimonials) {
       onRefreshTestimonials();
     }
@@ -145,7 +159,7 @@ export default function LandingSudahView({
                     </li>
                     <li>
                       <button
-                        onClick={handleLogout}
+                        onClick={openLogoutModal} // Ganti handleLogout dengan openLogoutModal
                         className="w-full text-left block px-4 py-2 hover:bg-purple-100 cursor-pointer"
                       >
                         Keluar
@@ -287,7 +301,7 @@ export default function LandingSudahView({
                 </li>
                 <li>
                   <button
-                    onClick={handleLogout}
+                    onClick={openLogoutModal} // Ganti handleLogout dengan openLogoutModal
                     className="w-full text-left block px-4 py-2 hover:bg-purple-100 cursor-pointer"
                   >
                     Keluar
@@ -298,6 +312,40 @@ export default function LandingSudahView({
           </div>
         </div>
       </nav>
+
+      {/* Modal Konfirmasi Logout */}
+      {isLogoutModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/10 bg-opacity-50">
+          <div className="bg-white p-6 rounded-xl max-w-sm w-full relative shadow-lg">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 cursor-pointer"
+              onClick={cancelLogout}
+            >
+              ✕
+            </button>
+            <h2 className="text-lg font-semibold mb-4 text-center text-gray-900">
+              Konfirmasi Logout
+            </h2>
+            <p className="text-center text-gray-700 mb-6">
+              Apakah Anda yakin ingin keluar dari akun Anda?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={cancelLogout}
+                className="border border-purple-600 text-purple-600 px-4 py-2 rounded-full hover:bg-purple-100 cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                onClick={confirmLogout}
+                className="bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 cursor-pointer"
+              >
+                Keluar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal Profil */}
       {isProfileModalOpen && (
@@ -836,7 +884,6 @@ export default function LandingSudahView({
             }}
           />
         </div>
-        {/* Update bagian render modal testimoni */}
         {isTestimoniModalOpen && (
           <TestimoniModal
             onClose={() => setTestimoniModalOpen(false)}
