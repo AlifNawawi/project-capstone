@@ -27,8 +27,7 @@ export const registerModel = {
       if (error.message === "Failed to fetch") {
         return {
           success: false,
-          error:
-            "Tidak dapat terhubung ke server. Pastikan backend berjalan di http://localhost:5000",
+          error: "Tidak dapat terhubung ke server",
         };
       }
       return { success: false, error: "Gagal terhubung ke server" };
