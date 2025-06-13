@@ -8,40 +8,68 @@ import {
   githubProvider,
   linkedinProvider,
 } from '../../firebase';
+import AlertSuccess from '../../components/General/AlertSuccess';
+import AlertFailed from '../../components/General/AlertFaill';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Tambahkan state untuk loading
+  const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const presenter = new LoginPresenter({
     onLoginSuccess: (user) => {
-      alert('Berhasil login sebagai ' + user.email);
+      setSuccess(
+        `Berhasil login sebagai ${user.email}! Mengalihkan ke halaman utama...`,
+      );
+      setError('');
+      setIsLoading(false);
+
       if (localStorage) {
         localStorage.setItem('user', JSON.stringify(user));
       }
-      navigate('/home');
     },
     onLoginError: (errorMessage) => {
       setError(errorMessage);
+      setSuccess('');
+      setIsLoading(false);
     },
   });
 
   const handleSubmit = () => {
+    setError('');
+    setSuccess('');
+
+    if (!email.trim() || !password.trim()) {
+      setError('Email dan password wajib diisi');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Format email tidak valid');
+      return;
+    }
+
+    setIsLoading(true);
     presenter.login(email, password);
   };
 
   const handleSocialLogin = async (providerName) => {
     if (isLoading) return;
+
+    setError('');
+    setSuccess('');
     setIsLoading(true);
+
     const providers = {
       google: googleProvider,
       facebook: facebookProvider,
       github: githubProvider,
       linkedin: linkedinProvider,
     };
+
     const provider = providers[providerName];
     if (provider) {
       try {
@@ -50,10 +78,10 @@ const LoginPage = () => {
           presenter.view.onLoginSuccess(result.user);
         } else if (result?.error) {
           setError(result.error);
+          setIsLoading(false);
         }
       } catch (error) {
         setError('Gagal login dengan sosial media');
-      } finally {
         setIsLoading(false);
       }
     } else {
@@ -66,6 +94,15 @@ const LoginPage = () => {
     navigate('/register');
   };
 
+  const handleDismissSuccess = () => {
+    setSuccess('');
+    navigate('/home'); // Redirect ke halaman utama saat alert sukses ditutup
+  };
+
+  const handleDismissError = () => {
+    setError('');
+  };
+
   return (
     <LoginView
       email={email}
@@ -74,9 +111,26 @@ const LoginPage = () => {
       onPasswordChange={setPassword}
       onSubmit={handleSubmit}
       error={error}
+      success={success}
       isLoading={isLoading}
       onSocialLogin={handleSocialLogin}
-      onGoToRegister={handleGoToRegister} // Teruskan prop onGoToRegister
+      onGoToRegister={handleGoToRegister}
+      AlertSuccess={(props) => (
+        <AlertSuccess
+          {...props}
+          autoDismiss={true}
+          duration={5000}
+          onDismiss={handleDismissSuccess}
+        />
+      )}
+      AlertFailed={(props) => (
+        <AlertFailed
+          {...props}
+          autoDismiss={true}
+          duration={5000}
+          onDismiss={handleDismissError}
+        />
+      )}
     />
   );
 };

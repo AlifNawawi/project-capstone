@@ -10,18 +10,23 @@ const CatatanPage = () => {
   const [journalText, setJournalText] = useState('');
   const [moodHistory, setMoodHistory] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   const model = new CatatanModel();
 
   const view = {
     updateMoodHistory: (history) => setMoodHistory(history),
-    showSuccess: (message) => alert(message),
-    showError: (message) => alert(message),
+    showSuccess: (message) => setSuccess(message),
+    showError: (message) => setError(message),
     resetForm: () => {
       setJournalText('');
       setSelectedMood(null);
     },
-    onNextClick: () => alert(`Mood kamu hari ini: ${selectedMood}`),
+    onNextClick: () => {
+      // Tidak lagi menggunakan alert, hanya memperbarui state
+      setSuccess(`Mood kamu hari ini: ${selectedMood}`);
+    },
     setAuthenticated: (authStatus) => setIsAuthenticated(authStatus),
     isAuthenticated,
     moodHistory,
@@ -39,7 +44,6 @@ const CatatanPage = () => {
       if (authStatus) {
         presenter.loadMoodHistory();
       } else {
-        // Redirect ke halaman login jika belum login
         window.location.href = '/login';
       }
     });
@@ -52,14 +56,24 @@ const CatatanPage = () => {
 
   const handleNextClick = () => {
     if (!isAuthenticated) {
-      alert('Silakan login terlebih dahulu!');
+      setError('Silakan login terlebih dahulu!');
       return;
     }
     if (!selectedMood || !journalText.trim()) {
-      alert('Silakan pilih mood dan isi jurnal terlebih dahulu!');
+      setError('Silakan pilih mood dan isi jurnal terlebih dahulu!');
       return;
     }
+    setError(''); // Kosongkan error sebelum menyimpan
+    setSuccess(''); // Kosongkan success sebelum menyimpan
     presenter.saveMood(selectedMood, journalText);
+  };
+
+  const handleDismissSuccess = () => {
+    setSuccess('');
+  };
+
+  const handleDismissError = () => {
+    setError('');
   };
 
   return (
@@ -76,6 +90,10 @@ const CatatanPage = () => {
       moodHistory={moodHistory}
       setJournalText={setJournalText}
       journalText={journalText}
+      success={success}
+      error={error}
+      onDismissSuccess={handleDismissSuccess}
+      onDismissError={handleDismissError}
     />
   );
 };

@@ -8,6 +8,7 @@ import {
   getProfilePhoto,
   updateProfile,
 } from '../../../firebase';
+import { logout } from '../../../firebase';
 
 const WebProfileComponent = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -164,7 +165,7 @@ const WebProfileComponent = () => {
           </li>
           <li>
             <button
-              onClick={handleLogout}
+              onClick={() => (confirm('Ingin Logout?') ? handleLogout() : null)}
               className="w-full text-left block px-4 py-2 hover:bg-purple-100 cursor-pointer"
             >
               Keluar

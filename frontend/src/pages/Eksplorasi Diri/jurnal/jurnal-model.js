@@ -28,25 +28,25 @@ export default class JurnalModel {
   async loadModel() {
     try {
       if (!this.model) {
-        console.log('Loading TensorFlow.js model...');
+        // console.log('Loading TensorFlow.js model...');
         try {
           this.model = await tf.loadGraphModel('/model_tfjs/model.json');
-          console.log('Model loaded successfully as GraphModel');
+          // console.log('Model loaded successfully as GraphModel');
         } catch (graphError) {
-          console.log('Failed to load as GraphModel, trying LayersModel...');
+          // console.log('Failed to load as GraphModel, trying LayersModel...');
           try {
             this.model = await tf.loadLayersModel('/model_tfjs/model.json');
-            console.log('Model loaded successfully as LayersModel');
+            // console.log('Model loaded successfully as LayersModel');
           } catch (layersError) {
-            console.error('Failed to load as both GraphModel and LayersModel');
-            console.log('Using keyword-based prediction only');
+            // console.error('Failed to load as both GraphModel and LayersModel');
+            // console.log('Using keyword-based prediction only');
             this.model = null;
           }
         }
       }
       return this.model;
     } catch (error) {
-      console.error('Error loading model:', error);
+      // console.error('Error loading model:', error);
       throw new Error('Gagal memuat model prediksi');
     }
   }
@@ -84,7 +84,7 @@ export default class JurnalModel {
 
       return tf.tensor2d([paddedTokens], [1, this.maxLength], 'float32');
     } catch (error) {
-      console.error('Error in preprocessing:', error);
+      // console.error('Error in preprocessing:', error);
       throw new Error('Gagal memproses teks input');
     }
   }
@@ -94,12 +94,12 @@ export default class JurnalModel {
       if (!text || text.trim().length === 0) throw new Error('Teks tidak boleh kosong');
 
       const keywordPrediction = this.predictMoodByKeywords(text);
-      console.log('Keyword-based prediction:', keywordPrediction);
+      // console.log('Keyword-based prediction:', keywordPrediction);
 
       if (this.model) {
         const inputTensor = this.preprocessText(text);
-        console.log('Input Tensor Shape:', inputTensor.shape);
-        console.log('Input Tensor Data:', inputTensor.dataSync());
+        // console.log('Input Tensor Shape:', inputTensor.shape);
+        // console.log('Input Tensor Data:', inputTensor.dataSync());
 
         let prediction;
         if (this.model.predict) {
@@ -123,7 +123,7 @@ export default class JurnalModel {
           method: 'ml'
         };
 
-        console.log('ML prediction:', mlPrediction);
+        // console.log('ML prediction:', mlPrediction);
 
         if (mlPrediction.confidence > keywordPrediction.confidence) {
           return mlPrediction;
@@ -133,7 +133,7 @@ export default class JurnalModel {
       return keywordPrediction;
 
     } catch (error) {
-      console.error('Error predicting mood:', error);
+      // console.error('Error predicting mood:', error);
       return this.predictMoodByKeywords(text);
     }
   }
@@ -143,9 +143,9 @@ export default class JurnalModel {
       const auth = getAuth();
       if (!auth.currentUser) throw new Error('Pengguna belum login');
 
-      console.log('Predicting mood for text:', text.substring(0, 50) + '...');
+      // console.log('Predicting mood for text:', text.substring(0, 50) + '...');
       const moodPrediction = await this.predictMood(text);
-      console.log('Final mood prediction result:', moodPrediction);
+      // console.log('Final mood prediction result:', moodPrediction);
 
       const journalEntry = await saveJournalEntry(text, moodPrediction.mood, moodPrediction.confidence);
       return {
@@ -155,7 +155,7 @@ export default class JurnalModel {
         journalId: journalEntry.journalId,
       };
     } catch (error) {
-      console.error('Kesalahan mengirim jurnal:', error);
+      // console.error('Kesalahan mengirim jurnal:', error);
       throw error;
     }
   }

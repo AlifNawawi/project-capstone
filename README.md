@@ -50,10 +50,10 @@
           <td>FC193D5Y1697</td>
           <td>Muhammad Farhan</td>
           <td>Frontend & Backend</td>
-          <td>Binasaran Informatika</td>
+          <td>Bina sarana Informatika</td>
           <td>
-              <a href="https://www.linkedin.com/in/wanadya/"><img src="https://img.shields.io/badge/--linkedin?label=LinkedIn&logo=LinkedIn&style=social"></a>
-              <a href="https://github.com/WanodyaHapsari"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
+              <a href="https://www.linkedin.com/in/muhammad-farhan-4a8691284/"><img src="https://img.shields.io/badge/--linkedin?label=LinkedIn&logo=LinkedIn&style=social"></a>
+              <a href="https://github.com/muhhfarhann"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
           </td>
         </tr>
         <tr>
@@ -98,35 +98,100 @@
         <tr>
             <td rowspan="4">Machine Learning</td>
             <td>Git/GitHub</td>
-            <td rowspan="2">The Skin Disease Classification Dataset from Kaggle.com is used to train the Skin Conditions Model to identify facial features associated with specific skin conditions, such as acne and eye bags.
+            <td rowspan="1">Digunakan untuk version control dan kolaborasi kode proyek Mamood.
             </td>
         </tr>
         <tr>            
             <td>Google Colaboratory</td>
+            <td rowspan="1">Artikel dan dataset dari Kaggle seperti "Daily Mood Tracking Dataset" digunakan untuk eksperimen awal model deteksi mood berbasis teks.
+            </td>
         </tr>
         <tr>            
             <td>Tensorflow</td>
-            <td rowspan="2">The Human Face Dataset, also from Kaggle.com, is utilized to train the Skin Conditions Model to recognize the features of a face without skin conditions, serving as a baseline for normal skin.The Oily, Dry, and Normal Skin Types Dataset, sourced from Kaggle.com, is employed to train the Skin Type Model. This dataset helps the model differentiate facial textures associated with three primary skin types: normal, oily, and dry.
+            <td rowspan="1">Dokumentasi resmi TensorFlow dan tutorial klasifikasi teks untuk membangun model analisis sentimen atau mood.
             </td>
         </tr>
         <tr>            
             <td>Python</td>
+            <td rowspan="1">Library Python seperti pandas, scikit-learn, dan nltk digunakan untuk preprocessing dan pelatihan model klasifikasi mood.
+            </td>
         </tr>
         <tr>
+    </tbody>
+      <tbody>
+        <tr>
+            <td rowspan="4">Frontend</td>
+            <td>Git/GitHub</td>
+            <td rowspan="1">Digunakan untuk version control dan kolaborasi.
+            </td>
+        </tr>
+        <tr>            
+            <td>Visual Studio Code</td>
+            <td rowspan="1">Digunakan sebagai IDE utama dalam pengembangan UI aplikasi Mamood.
+            </td>
+        </tr>
+        <tr>            
+            <td>React.js</td>
+            <td rowspan="1">Dokumentasi resmi React.js digunakan sebagai referensi pengembangan antarmuka pengguna.
+            </td>
+        </tr>
+        <tr>            
+            <td>Vite</td>
+            <td rowspan="1">Digunakan untuk setup proyek React dengan build tool yang cepat dan ringan.
+            </td>
+        </tr>
+        <tr>
+    </tbody>
+      <tbody>
+        <tr>
+            <td rowspan="4">Backend</td>
+            <td>Git/GitHub</td>
+            <td rowspan="1">Untuk menyimpan dan mengelola source code backend secara kolaboratif.
+            </td>
+        </tr>
+        <tr>            
+            <td>Visual Studio Code</td>
+            <td rowspan="1">IDE untuk development server dan API.
+            </td>
+        </tr>
+        <tr>            
+            <td>Express.js</td>
+            <td rowspan="1">Dokumentasi Express digunakan sebagai acuan untuk membuat RESTful API Mamood.
+            </td>
+        </tr>
+        <tr>            
+            <td>Node.js</td>
+            <td rowspan="1">Node.js official documentation digunakan sebagai referensi runtime environment backend Mamood.
+            </td>
+        </tr>
+        <tr>
+    </tbody>
+      <tbody>
+        <tr>
+            <td rowspan="2">UI & UX</td>
+            <td>Git/GitHub</td>
+            <td rowspan="1">Untuk version control file desain.
+            </td>
+        </tr>
+        <tr>            
+            <td>Figma</td>
+            <td rowspan="1">Digunakan untuk membuat desain antarmuka berdasarkan prinsip UI/UX. Inspirasi diambil dari Behance dan Dribbble untuk tampilan mood tracker yang menarik dan minimalis.
+            </td>
+        </tr>
     </tbody>
 </table>
 
 <br>
 <h2>Tampilan Aplikasi 🌐</h2>
 <div>
-<img src="https://github.com/AGUN1505/mokap/blob/main/mokap.jpg" width="22%">
-<img src="https://github.com/AGUN1505/mokap/blob/main/mokap%201.png" width="22%">
-<img src="https://github.com/AGUN1505/mokap/blob/main/mokap%207.png" width="22%">
-<img src="https://github.com/AGUN1505/mokap/blob/main/mokap%205.png" width="22%">
+<img src="https://github.com/dindputr/FEBE/blob/main/Group%201.png" width="22%">
+<img src="https://github.com/dindputr/FEBE/blob/main/Landing%20Page.png" width="22%">
+<img src="https://github.com/dindputr/FEBE/blob/main/Catatan%20Mood.png" width="22%">
+<img src="https://github.com/dindputr/FEBE/blob/main/Refleksi%20Diri.png" width="22%">
 </div>
 
 <br>
 <h2> Repositori Proyek Kami 📁</h2>
 <p>Mau lihat kode di balik layar? Langsung aja mampir ke Github kami!</p>
-<p></p><b>Frontend & Backend:</b> <a href="">FEBE Mamood</a></p>
-<p></p><b>Machine Learning:</b> <a href="">ML Mamood</a></p>
+<p></p><b>Frontend & Backend:</b> <a href="https://github.com/dindputr/FEBE">FEBE Mamood</a></p>
+<p></p><b>Machine Learning:</b> <a href="https://github.com/dindputr/Machine-Learning">ML Mamood</a></p>

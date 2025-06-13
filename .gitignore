@@ -16,6 +16,7 @@ backend/build/
 *.swo
 
 # File konfigurasi lokal
+frontend/.env.local
 .env.local
 .env.development.local
 .env.test.local
@@ -24,3 +25,7 @@ backend/build/
 # File cache editor
 .vscode/
 .idea/
+.vite
+.firebaserc
+firebase.json
+storage.rules

@@ -1,14 +1,42 @@
-// firebase-firestore.js
 import { getFirestore, collection, addDoc, getDocs, query, where, doc, updateDoc, deleteDoc, onSnapshot } from 'firebase/firestore';
 import { auth } from './firebase';
 import { fromZonedTime, toZonedTime } from 'date-fns-tz';
 
 export const db = getFirestore();
 
-// Fungsi untuk catatan mood (tidak dihapus)
+// Simpan testimoni
+export const saveTestimonial = async ({ rating, status, message, isDisplayed, displayName }) => {
+    const user = auth.currentUser;
+    if (!user) throw new Error('Pengguna tidak terautentikasi');
+
+    const testimonial = {
+        userId: user.uid,
+        displayName: displayName || 'Anonymous',
+        rating,
+        status,
+        message,
+        isDisplayed: isDisplayed === 'ya',
+        timestamp: fromZonedTime(new Date(), 'Asia/Jakarta').toISOString(),
+    };
+
+    await addDoc(collection(db, 'testimonials'), testimonial);
+};
+
+// Ambil testimoni untuk ditampilkan
+export const fetchTestimonials = async () => {
+    const q = query(collection(db, 'testimonials'), where('isDisplayed', '==', true));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        timestamp: toZonedTime(new Date(doc.data().timestamp), 'Asia/Jakarta'),
+    }));
+};
+
+// Fungsi yang sudah ada (tidak diubah)
 export const saveMoodEntry = async (mood, journal) => {
     const user = auth.currentUser;
-    if (!user) throw new Error('User not authenticated');
+    if (!user) throw new Error('Pengguna tidak terautentikasi');
 
     const moodEntry = {
         userId: user.uid,
@@ -22,7 +50,7 @@ export const saveMoodEntry = async (mood, journal) => {
 
 export const fetchMoodHistory = async () => {
     const user = auth.currentUser;
-    if (!user) throw new Error('User not authenticated');
+    if (!user) throw new Error('Pengguna tidak terautentikasi');
 
     const q = query(collection(db, 'users', user.uid, 'mood_entries'), where('userId', '==', user.uid));
     const querySnapshot = await getDocs(q);
@@ -33,7 +61,6 @@ export const fetchMoodHistory = async () => {
     }));
 };
 
-// Fungsi untuk jurnal harian
 export const saveJournalEntry = async (text, mood, confidence) => {
     const user = auth.currentUser;
     if (!user) throw new Error('Pengguna tidak terautentikasi');
@@ -54,7 +81,6 @@ export const fetchJournalHistory = (callback) => {
     const user = auth.currentUser;
     if (!user) throw new Error('Pengguna belum login');
 
-    // Pengambilan awal
     const initialFetch = async () => {
         const q = query(collection(db, 'users', user.uid, 'journals'));
         const querySnapshot = await getDocs(q);
@@ -67,7 +93,6 @@ export const fetchJournalHistory = (callback) => {
         return history;
     };
 
-    // Listener real-time
     const unsubscribe = onSnapshot(
         collection(db, `users/${user.uid}/journals`),
         (snapshot) => {
@@ -79,12 +104,11 @@ export const fetchJournalHistory = (callback) => {
             if (callback) callback(history);
         },
         (error) => {
-            console.error('Error fetching journal history:', error);
-            if (callback) callback([]); // Reset ke array kosong jika error
+            console.error('Error mengambil riwayat jurnal:', error);
+            if (callback) callback([]);
         }
     );
 
-    // Kembalikan fungsi untuk unsubscribe dan data awal
     return { unsubscribe, initialData: initialFetch() };
 };
 

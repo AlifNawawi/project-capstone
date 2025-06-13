@@ -5,7 +5,8 @@ import RefleksiPresenter from './refleksi-presnter';
 const RefleksiPage = () => {
   const [jawaban, setJawaban] = useState(Array(20).fill(null));
   const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePilihJawaban = (index, nilai) => {
@@ -15,10 +16,10 @@ const RefleksiPage = () => {
   };
 
   const handleSubmit = async () => {
-    setError(null);
+    setError('');
+    setSuccess('');
     setIsLoading(true);
 
-    // Validasi: pastikan semua pertanyaan dijawab
     if (jawaban.includes(null)) {
       setError('Harap jawab semua pertanyaan sebelum submit.');
       setIsLoading(false);
@@ -26,12 +27,11 @@ const RefleksiPage = () => {
     }
 
     try {
-      // Konversi jawaban ke skor 0-4 (sesuai dokumen)
       const mappedAnswers = jawaban.map((val) => val - 1); // 1-5 menjadi 0-4
       const { reflectionId, rawScore, scaledScore, category } =
         await RefleksiPresenter.saveReflection(mappedAnswers);
       setResult({ reflectionId, rawScore, scaledScore, category });
-      // Reset jawaban setelah submit
+      setSuccess('Refleksi berhasil disimpan!');
       setJawaban(Array(20).fill(null));
     } catch (error) {
       console.error('Error submitting reflection:', error);
@@ -41,6 +41,14 @@ const RefleksiPage = () => {
     }
   };
 
+  const handleDismissSuccess = () => {
+    setSuccess('');
+  };
+
+  const handleDismissError = () => {
+    setError('');
+  };
+
   return (
     <RefleksiView
       jawaban={jawaban}
@@ -48,8 +56,11 @@ const RefleksiPage = () => {
       onSubmit={handleSubmit}
       result={result}
       error={error}
+      success={success}
       isLoading={isLoading}
       questions={RefleksiPresenter.questions}
+      onDismissSuccess={handleDismissSuccess}
+      onDismissError={handleDismissError}
     />
   );
 };

@@ -14,7 +14,7 @@ export const registerModel = {
       if (response.ok) {
         return { success: true, user: data.user };
       }
-      console.error('Error dari server di register:', data.error, data.details);
+      // console.error('Error dari server di register:', data.error, data.details);
       return { success: false, error: data.details || data.error || 'Registrasi gagal' };
     } catch (error) {
       console.error('Error di register:', error.message, error.stack);
