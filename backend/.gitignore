@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # File sensitif
 backend/serviceAccountKey.json
 
@@ -26,7 +25,3 @@ backend/build/
 .vscode/
 .idea/
 .vite
-=======
-node_modules/
-!serviceAccountKey.json
->>>>>>> ca5aaeb (Initial commit for backend)
