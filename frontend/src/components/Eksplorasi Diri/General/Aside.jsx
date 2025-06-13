@@ -15,7 +15,7 @@ export default function Aside() {
   }, []);
 
   return (
-    <aside className="hidden md:flex w-20 text-white flex-col items-center py-6 space-y-6 rounded-xl m-4">
+    <aside className="hidden md:flex w-20 text-white bg-black flex-col items-center py-6 space-y-6 rounded-xl m-4">
       {sidebarMenu.map((item, index) => {
         const isActive = currentPath === item.path;
 
