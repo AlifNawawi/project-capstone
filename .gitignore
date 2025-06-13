@@ -1,6 +1,5 @@
 # File sensitif
 backend/serviceAccountKey.json
-.env
 
 # Direktori dependensi
 node_modules/
@@ -12,12 +11,11 @@ backend/build/
 
 # File log dan sementara
 *.log
-.DS_Store
 *.swp
 *.swo
 
 # File konfigurasi lokal
-frontend/.env.local
+# frontend/.env.local
 .env.local
 .env.development.local
 .env.test.local
@@ -27,6 +25,3 @@ frontend/.env.local
 .vscode/
 .idea/
 .vite
-.firebaserc
-firebase.json
-storage.rules
