@@ -33,13 +33,25 @@ try {
   });
   console.log("Firebase Admin SDK berhasil diinisialisasi");
   // Uji koneksi ke Firebase
-  admin.auth().listUsers(1).then(() => {
-    console.log("Koneksi ke Firebase Authentication berhasil");
-  }).catch(error => {
-    console.error("Gagal terhubung ke Firebase Authentication:", error.message, error.stack);
-  });
+  admin
+    .auth()
+    .listUsers(1)
+    .then(() => {
+      console.log("Koneksi ke Firebase Authentication berhasil");
+    })
+    .catch((error) => {
+      console.error(
+        "Gagal terhubung ke Firebase Authentication:",
+        error.message,
+        error.stack
+      );
+    });
 } catch (error) {
-  console.error("Gagal inisialisasi Firebase Admin SDK:", error.message, error.stack);
+  console.error(
+    "Gagal inisialisasi Firebase Admin SDK:",
+    error.message,
+    error.stack
+  );
   process.exit(1);
 }
 
@@ -50,7 +62,11 @@ const db = admin.firestore();
 app.use(
   cors({
     origin: (origin, callback) => {
-      const allowedOrigins = ["http://localhost:5176", "http://localhost:5173", "http://localhost:5174"];
+      const allowedOrigins = [
+        "http://localhost:5176",
+        "http://localhost:5173",
+        "http://localhost:5174",
+      ];
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -85,7 +101,9 @@ app.post("/api/register", async (req, res) => {
       password,
     });
     console.log("Berhasil membuat pengguna:", userRecord.uid);
-    res.status(201).json({ message: "Pengguna berhasil dibuat", uid: userRecord.uid });
+    res
+      .status(201)
+      .json({ message: "Pengguna berhasil dibuat", uid: userRecord.uid });
   } catch (error) {
     console.error("Error saat registrasi:", error.message, error.stack);
     let errorMessage = "Gagal registrasi";
@@ -106,10 +124,16 @@ app.post("/api/register", async (req, res) => {
 
 // Endpoint untuk registrasi dengan semua field
 app.post("/api/auth/register", async (req, res) => {
-  console.log("Registrasi diterima (raw body):", JSON.stringify(req.body, null, 2));
+  console.log(
+    "Registrasi diterima (raw body):",
+    JSON.stringify(req.body, null, 2)
+  );
   const { username, email, password, gender } = req.body;
 
-  console.log("Field yang diparsing:", JSON.stringify({ username, email, password, gender }, null, 2));
+  console.log(
+    "Field yang diparsing:",
+    JSON.stringify({ username, email, password, gender }, null, 2)
+  );
 
   if (
     !username ||
@@ -122,7 +146,9 @@ app.post("/api/auth/register", async (req, res) => {
     gender.trim() === ""
   ) {
     console.log("Validasi gagal: Ada field yang hilang atau kosong");
-    return res.status(400).json({ error: "Semua field wajib diisi dan tidak boleh kosong" });
+    return res
+      .status(400)
+      .json({ error: "Semua field wajib diisi dan tidak boleh kosong" });
   }
 
   try {
@@ -182,7 +208,9 @@ app.post("/api/auth/login", async (req, res) => {
     res.status(200).json({ success: true, user });
   } catch (error) {
     console.error("Error di login:", error.message, error.stack);
-    res.status(401).json({ error: "Token tidak valid", details: error.message });
+    res
+      .status(401)
+      .json({ error: "Token tidak valid", details: error.message });
   }
 });
 
@@ -203,13 +231,18 @@ app.post("/api/auth/verify-token", async (req, res) => {
     res.status(200).json({ success: true, uid: decodedToken.uid });
   } catch (error) {
     console.error("Error di verify-token:", error.message, error.stack);
-    res.status(401).json({ error: "Token tidak valid", details: error.message });
+    res
+      .status(401)
+      .json({ error: "Token tidak valid", details: error.message });
   }
 });
 
 // Endpoint untuk memperbarui atau menyimpan data pengguna
 app.post("/api/auth/update-user", async (req, res) => {
-  console.log("Menerima permintaan update-user:", JSON.stringify(req.body, null, 2));
+  console.log(
+    "Menerima permintaan update-user:",
+    JSON.stringify(req.body, null, 2)
+  );
   const { uid, username, gender } = req.body;
   if (!uid || !username) {
     console.log("Validasi gagal: UID dan username diperlukan");
@@ -223,7 +256,12 @@ app.post("/api/auth/update-user", async (req, res) => {
     res.status(200).json({ success: true });
   } catch (error) {
     console.error("Error di update-user:", error.message, error.stack);
-    res.status(500).json({ error: "Gagal memperbarui data pengguna", details: error.message });
+    res
+      .status(500)
+      .json({
+        error: "Gagal memperbarui data pengguna",
+        details: error.message,
+      });
   }
 });
 
@@ -231,7 +269,11 @@ app.post("/api/auth/update-user", async (req, res) => {
 app.post("/api/self-reflection/save", async (req, res) => {
   const { userId, rawScore, scaledScore, category, answers } = req.body;
   if (!userId || rawScore == null || scaledScore == null || !category) {
-    return res.status(400).json({ error: "userId, rawScore, scaledScore, dan category diperlukan" });
+    return res
+      .status(400)
+      .json({
+        error: "userId, rawScore, scaledScore, dan category diperlukan",
+      });
   }
   try {
     const reflectionData = {
@@ -247,7 +289,9 @@ app.post("/api/self-reflection/save", async (req, res) => {
     res.status(201).json({ success: true, reflectionId: docRef.id });
   } catch (error) {
     console.error("Error saving reflection:", error.message, error.stack);
-    res.status(500).json({ error: "Gagal menyimpan refleksi", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Gagal menyimpan refleksi", details: error.message });
   }
 });
 
@@ -255,19 +299,29 @@ app.post("/api/self-reflection/save", async (req, res) => {
 app.get("/api/self-reflection/history/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
-    const snapshot = await db.collection("self_reflections")
+    const snapshot = await db
+      .collection("self_reflections")
       .where("userId", "==", userId)
       .orderBy("date", "desc")
       .get();
-    const reflections = snapshot.docs.map(doc => ({
+    const reflections = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
       date: doc.data().date.toDate().toISOString(),
     }));
     res.status(200).json({ success: true, reflections });
   } catch (error) {
-    console.error("Error fetching reflection history:", error.message, error.stack);
-    res.status(500).json({ error: "Gagal mengambil riwayat refleksi", details: error.message });
+    console.error(
+      "Error fetching reflection history:",
+      error.message,
+      error.stack
+    );
+    res
+      .status(500)
+      .json({
+        error: "Gagal mengambil riwayat refleksi",
+        details: error.message,
+      });
   }
 });
 
