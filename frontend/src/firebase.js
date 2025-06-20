@@ -47,7 +47,7 @@ const linkedinProvider = (() => {
 })();
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://mamood.padekin.web.id";
+  import.meta.env.VITE_API_BASE_URL || "https://mamood.padek.tech/";
 
 export const logout = async () => {
   try {
